@@ -62,11 +62,11 @@ export default function App() {
     setActiveMenuId(null);
 
     try {
-      await fetch('http://localhost:5000/api/session/delete', {
+      await fetch('https://tts-voice-assistant-backend.onrender.com/api/session/delete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId: id, audioFiles: audioFilesToDelete })
-      });
+      });         //http://localhost:5000/api/session/delete
     } catch (err) { console.error("Failed to delete backend files:", err); }
   };
 
@@ -143,7 +143,7 @@ export default function App() {
       if (attachedFile) formData.append('attachment', attachedFile);
       const token = await getToken();
 
-      const response = await fetch('http://localhost:5000/api/chat', { method: 'POST', headers: {'Authorization': `Bearer ${token}`}, body: formData });
+      const response = await fetch('https://tts-voice-assistant-backend.onrender.com/api/chat', { method: 'POST', headers: {'Authorization': `Bearer ${token}`}, body: formData });         //'http://localhost:5000/api/chat'
       const data = await response.json();
 
       setSessions(prevSessions => prevSessions.map(session => {
