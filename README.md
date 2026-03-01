@@ -1,4 +1,4 @@
-# Multimodal TTS (Type-To-Talk) AI Voice Assistant 🌐🤖
+# Multimodal TTT (Type-To-Talk) AI Voice Assistant 🌐🤖
 
 A fully functional, voice-native AI assistant built on a decoupled architecture. It features persistent memory, real-time web search capabilities, and secure modern authentication.
 
