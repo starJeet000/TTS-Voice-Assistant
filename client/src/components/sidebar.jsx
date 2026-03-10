@@ -8,16 +8,16 @@ export default function Sidebar({
 
   return (
     <div style={{
-      width: isSidebarOpen ? '260px' : '65px', // Adjusted slightly so the circle fits perfectly when closed
+      width: isSidebarOpen ? '260px' : '65px', 
       transition: 'width 0.3s ease',
       background: '#1e1f20',
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
-      whiteSpace: 'nowrap'
+      whiteSpace: 'nowrap',
+      position: 'relative' // REQUIRED for the absolute button trick to work!
     }}>
 
-      {/* CSS for the hamburger button (Hover effect removed) */}
       <style>{`
         .hamburger-btn {
           background: transparent;
@@ -41,15 +41,22 @@ export default function Sidebar({
         }
       `}</style>
 
-      {/* Hamburger Menu Inside Sidebar - Text/Tooltip removed */}
-      <div style={{ padding: '15px 10px', display: 'flex', justifyContent: isSidebarOpen ? 'flex-start' : 'center' }}>
-        <button
-          className="hamburger-btn"
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        >
-          ☰
-        </button>
-      </div>
+      {/* Hamburger Button Anchored to the Right Edge */}
+      <button
+        className="hamburger-btn"
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        style={{
+          position: 'absolute',
+          top: '15px',
+          right: '10px', // Perfectly slides alongside the expanding/collapsing sidebar!
+          zIndex: 100
+        }}
+      >
+        ☰
+      </button>
+
+      {/* Invisible spacer so the fixed button doesn't overlap the first chat entry */}
+      <div style={{ height: '75px', flexShrink: 0 }}></div>
 
       {isSidebarOpen && (
         <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '5px', padding: '0 10px' }}>
@@ -90,4 +97,3 @@ export default function Sidebar({
     </div>
   );
 }
-

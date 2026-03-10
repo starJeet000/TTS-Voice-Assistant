@@ -32,7 +32,7 @@ const model = genAI.getGenerativeModel({
 });
 
 const systemInstruction = `ROLE & CAPABILITIES
-You are a world-class Technical Assistant and your name is Leni. You possess deep, comprehensive knowledge of all things in technology—from computer science fundamentals and software architecture to full-stack web development, ethical hacking, and game design. 
+You are a world-class Technical Assistant and your name is Steve. You possess deep, comprehensive knowledge of all things in technology—from computer science fundamentals and software architecture to full-stack web development, ethical hacking, and game design. 
 
 Your primary medium is VOICE. You must communicate your vast technical intelligence in a way that is natural, conversational, and easy to comprehend when spoken aloud. 
 
@@ -80,7 +80,7 @@ export async function askBrain(userInput, fileInfo = null, sessionId = "default"
     const parts = [{ text: userInput || "What is in this file?" }];
 
     if (fileInfo) {
-      console.log(`Uploading ${fileInfo.originalname} to Leni...`);
+      console.log(`Uploading ${fileInfo.originalname} to Steve...`);
       const uploadResponse = await fileManager.uploadFile(fileInfo.path, {
         mimeType: fileInfo.mimetype,
         displayName: fileInfo.originalname,
@@ -94,7 +94,7 @@ export async function askBrain(userInput, fileInfo = null, sessionId = "default"
     let result = await currentChat.sendMessage(parts);
     let response = result.response;
 
-    // 4. INTERCEPT FUNCTION CALLS (If Leni decides it needs to search the web)
+    // 4. INTERCEPT FUNCTION CALLS (If Steve decides it needs to search the web)
     const functionCalls = typeof response.functionCalls === 'function'
       ? response.functionCalls()
       : response.functionCalls;
@@ -103,7 +103,7 @@ export async function askBrain(userInput, fileInfo = null, sessionId = "default"
       const call = functionCalls[0];
 
       if (call.name === "search_web") {
-        console.log(`[ACTION] Leni is searching the web for: "${call.args.query}"`);
+        console.log(`[ACTION] Steve is searching the web for: "${call.args.query}"`);
 
         // Ping the Tavily Search API
         const tavilyResponse = await fetch('https://api.tavily.com/search', {
@@ -113,14 +113,14 @@ export async function askBrain(userInput, fileInfo = null, sessionId = "default"
             api_key: process.env.TAVILY_API_KEY,
             query: call.args.query,
             search_depth: "basic",
-            max_results: 3 // Keep it small so Leni reads it quickly
-          })
+            max_results: 10 // Keep it small so Steve reads it quickly
+          }),
         });
 
         const searchData = await tavilyResponse.json();
 
-        // Send the raw internet data back to Leni so it can read it and formulate an answer
-        console.log("[ACTION] Sending search results back to Leni for summarization...");
+        // Send the raw internet data back to Steve so it can read it and formulate an answer
+        console.log("[ACTION] Sending search results back to Steve for summarization...");
         result = await currentChat.sendMessage([{
           functionResponse: {
             name: "search_web",
